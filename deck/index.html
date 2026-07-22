@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AEGIS — Vision Venture Pitch</title>
+<style>
+  :root{
+    --field:#000; --board:#101012; --head:#1d1d20; --hairline:#29292d;
+    --cream:#f6efd8; --cream-ink:#141414; --signal:#e0472f; --yl:#ffd21f;
+    --muted:#9a9a9f;
+    --sans:"RM Neue","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--field);color:var(--cream);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+  .deck{scroll-snap-type:y mandatory;height:100vh;overflow-y:scroll}
+  .slide{
+    scroll-snap-align:start; min-height:100vh; width:100%;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:64px 80px; position:relative; border-bottom:1px solid var(--hairline);
+  }
+  /* signage furniture */
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.28em;
+    text-transform:uppercase;color:var(--yl);margin-bottom:22px;display:flex;gap:14px;align-items:center}
+  .kicker::before{content:"";width:28px;height:12px;background:var(--yl);display:inline-block}
+  h1{font-size:clamp(40px,7vw,104px);line-height:.98;font-weight:800;letter-spacing:-.02em}
+  h2{font-size:clamp(30px,4.4vw,60px);line-height:1.02;font-weight:800;letter-spacing:-.015em}
+  h3{font-size:22px;font-weight:700;letter-spacing:-.01em}
+  p{font-size:19px;line-height:1.55;color:#e6e0cd;max-width:60ch}
+  .lead{font-size:clamp(20px,2.2vw,27px);line-height:1.5;max-width:26ch}
+  .sig{color:var(--signal)} .yl{color:var(--yl)}
+  .mono{font-family:var(--mono)}
+  .num{position:absolute;top:34px;right:44px;font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.1em}
+  .brandtab{position:absolute;top:34px;left:80px;font-family:var(--mono);font-size:13px;letter-spacing:.24em;color:var(--muted)}
+
+  /* cover */
+  .cover-mark{display:flex;align-items:center;gap:26px;margin-bottom:8px}
+  .cover-mark svg{width:96px;height:96px;flex:none}
+  .cover h1{font-size:clamp(64px,13vw,180px)}
+  .cover .sub{margin-top:26px;font-size:clamp(19px,2.3vw,26px);color:#e6e0cd;max-width:34ch;line-height:1.4}
+  .metae{margin-top:52px;display:flex;gap:14px;flex-wrap:wrap}
+  .chip{font-family:var(--mono);font-size:13px;letter-spacing:.06em;padding:9px 15px;border:1px solid var(--hairline);
+    color:var(--muted)}
+  .chip.on{background:var(--cream);color:var(--cream-ink);border-color:var(--cream);font-weight:600}
+
+  /* stat row */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:40px;border:1px solid var(--hairline)}
+  .stat{padding:30px 28px;border-right:1px solid var(--hairline)}
+  .stat:last-child{border-right:none}
+  .stat .big{font-family:var(--mono);font-size:clamp(38px,5vw,66px);font-weight:700;color:var(--yl);line-height:1}
+  .stat .cap{margin-top:14px;font-size:15px;color:#cfc9b6;line-height:1.4}
+
+  /* two-col */
+  .cols{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center;margin-top:20px}
+  .cols.wide{grid-template-columns:1fr 1.3fr}
+  ul.clean{list-style:none;display:flex;flex-direction:column;gap:16px;margin-top:26px}
+  ul.clean li{font-size:19px;line-height:1.45;padding-left:30px;position:relative;color:#e6e0cd;max-width:46ch}
+  ul.clean li::before{content:"";position:absolute;left:0;top:10px;width:14px;height:6px;background:var(--signal)}
+  ul.clean.yl li::before{background:var(--yl)}
+
+  /* flow diagram */
+  .flow{display:flex;flex-direction:column;gap:14px;margin-top:26px}
+  .frow{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .node{border:1px solid var(--hairline);padding:16px 20px;background:var(--board);min-width:150px}
+  .node .t{font-weight:700;font-size:17px}
+  .node .d{font-size:13px;color:var(--muted);margin-top:4px;font-family:var(--mono)}
+  .node.cream{background:var(--cream);color:var(--cream-ink);border-color:var(--cream)}
+  .node.cream .d{color:#5a5545}
+  .node.sig{border-color:var(--signal)}
+  .arrow{color:var(--yl);font-family:var(--mono);font-size:22px}
+
+  /* board card (cream signage panel) */
+  .board{background:var(--cream);color:var(--cream-ink);padding:38px 40px;border:1px solid var(--cream)}
+  .board h2{color:var(--cream-ink)}
+  .board p{color:#3a3627}
+
+  /* dashboard shot */
+  .shot{border:1px solid var(--hairline);width:100%;display:block}
+  figcaption{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:.05em}
+
+  /* table */
+  table{width:100%;border-collapse:collapse;margin-top:24px;font-size:17px}
+  th,td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--hairline)}
+  th{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  td.r,th.r{text-align:right;font-family:var(--mono)}
+  tfoot td{font-weight:700;color:var(--yl);border-bottom:none;border-top:2px solid var(--hairline)}
+
+  .hint{position:fixed;bottom:18px;right:22px;font-family:var(--mono);font-size:11px;color:#55555a;letter-spacing:.1em}
+
+  @media (max-width:820px){
+    .slide{padding:44px 26px}
+    .cols,.cols.wide{grid-template-columns:1fr;gap:28px}
+    .stats{grid-template-columns:1fr}
+    .stat{border-right:none;border-bottom:1px solid var(--hairline)}
+    .brandtab{left:26px}.num{right:24px}
+  }
+
+  /* print → one landscape page per slide, clipped so nothing bleeds over */
+  @media print{
+    @page{size:1280px 720px;margin:0}
+    html,body{height:auto}
+    .deck{height:auto;overflow:visible;display:block}
+    .slide{height:720px;min-height:720px;max-height:720px;overflow:hidden;
+      page-break-after:always;break-after:page;page-break-inside:avoid;
+      border-bottom:none;padding:44px 60px;justify-content:center}
+    h1{font-size:86px}
+    .cover h1{font-size:120px}
+    h2{font-size:44px;line-height:1.04}
+    p,.lead{font-size:16px;line-height:1.45}
+    .cover .sub{font-size:19px}
+    .kicker{margin-bottom:14px}
+    .stats{margin-top:24px}
+    .stat{padding:20px 20px}
+    .stat .big{font-size:48px}
+    .stat .cap{font-size:13px;margin-top:10px}
+    .flow{gap:10px;margin-top:18px}
+    .node{padding:11px 15px;min-width:135px}
+    .node .t{font-size:15px}.node .d{font-size:12px}
+    ul.clean{gap:11px;margin-top:16px}
+    ul.clean li{font-size:16px}
+    .metae{margin-top:34px}
+    table{font-size:15px;margin-top:16px}
+    th,td{padding:9px 14px}
+    .cols{grid-template-columns:1.1fr 1fr !important;gap:34px;align-items:center}
+    .cols.wide{grid-template-columns:1fr 1.25fr !important}
+    figure img.shot{max-height:430px;object-fit:contain}
+    pre{font-size:13px !important}
+    .hint{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- 1 · COVER -->
+  <section class="slide cover">
+    <span class="brandtab">AEGIS · MTTA</span>
+    <span class="num">01 / 12</span>
+    <div class="cover-mark">
+      <svg viewBox="0 0 48 48" fill="none">
+        <path d="M24 3 L41 10 V23 C41 34 33 42 24 45 C15 42 7 34 7 23 V10 Z" fill="#101012" stroke="#ffd21f" stroke-width="2"/>
+        <path d="M24 13 C29 17 31 24 24 34 C17 24 19 17 24 13 Z" fill="#ffd21f"/>
+        <line x1="24" y1="17" x2="24" y2="33" stroke="#101012" stroke-width="1.4"/>
+      </svg>
+      <h1>AEGIS</h1>
+    </div>
+    <p class="sub">A low-cost, modular, <span class="yl">AI-assisted</span> field network that helps small farmers <span class="sig">save water</span> and protect crops.</p>
+    <div class="metae">
+      <span class="chip on">Techathon 3.0 · Vision Venture</span>
+      <span class="chip">Agri-Tech for Sustainable Farming</span>
+      <span class="chip">Team: [Your Name] · [Teammate]</span>
+      <span class="chip">[Your School]</span>
+    </div>
+  </section>
+
+  <!-- 2 · PROBLEM -->
+  <section class="slide">
+    <span class="brandtab">THE PROBLEM</span>
+    <span class="num">02 / 12</span>
+    <div class="kicker">Farming runs blind</div>
+    <h2>Small farmers guess — and pay for it in <span class="sig">water and lost crops</span>.</h2>
+    <div class="stats">
+      <div class="stat"><div class="big">~80%</div><div class="cap">of India's fresh water goes to agriculture — much of it wasted on over-irrigation.</div></div>
+      <div class="stat"><div class="big">₹ Lakhs</div><div class="cap">Commercial smart-farming kits cost far beyond a small farmer's reach.</div></div>
+      <div class="stat"><div class="big">No alert</div><div class="cap">Frost, heat, dryness and field fires are noticed only after damage is done.</div></div>
+    </div>
+    <p style="margin-top:34px">Farmers water on a fixed schedule instead of on need, and get no early warning when conditions turn against the crop.</p>
+  </section>
+
+  <!-- 3 · THE GAP -->
+  <section class="slide">
+    <span class="brandtab">WHY NOTHING FITS</span>
+    <span class="num">03 / 12</span>
+    <div class="cols">
+      <div>
+        <div class="kicker">The gap</div>
+        <h2>Existing systems are <span class="sig">expensive, fragile and closed</span>.</h2>
+      </div>
+      <ul class="clean">
+        <li><b>Too costly</b> — priced for large commercial farms, not a 2-acre holding.</li>
+        <li><b>Not repairable</b> — one failed part means replacing the whole unit.</li>
+        <li><b>Needs a smartphone + app</b> — excludes farmers on basic phones.</li>
+        <li><b>Dies offline</b> — no signal, no function, no warning.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4 · SOLUTION -->
+  <section class="slide board">
+    <span class="num" style="color:#8a836d">04 / 12</span>
+    <div class="kicker" style="color:var(--signal)">The idea</div>
+    <h2>AEGIS puts a cheap, repairable <span class="sig">sensor node</span> in the field and the <span style="color:#b8860b">intelligence in the cloud</span>.</h2>
+    <p style="margin-top:24px;font-size:22px;max-width:52ch">Each node measures soil moisture, temperature, humidity and smoke. It sends readings over Wi-Fi to the AEGIS cloud, which decides what's happening and replies with plain-language advice — shown on the node's screen, on a live dashboard, and as an <b>SMS that works on any phone</b>.</p>
+  </section>
+
+  <!-- 5 · HOW IT WORKS -->
+  <section class="slide">
+    <span class="brandtab">ARCHITECTURE</span>
+    <span class="num">05 / 12</span>
+    <div class="kicker">How it works</div>
+    <h2>Four layers. The node stays <span class="yl">dumb</span>; the cloud stays <span class="yl">smart</span>.</h2>
+    <div class="flow">
+      <div class="frow">
+        <div class="node sig"><div class="t">Field Node · ESP32</div><div class="d">soil · temp · humidity · smoke</div></div>
+        <span class="arrow">→</span>
+        <div class="node"><div class="t">Wi-Fi · JSON</div><div class="d">HTTP POST every 5s</div></div>
+        <span class="arrow">→</span>
+        <div class="node"><div class="t">Cloud API</div><div class="d">Next.js / TypeScript</div></div>
+      </div>
+      <div class="frow" style="padding-left:40px">
+        <span class="arrow">↳</span>
+        <div class="node"><div class="t">Rule engine</div><div class="d">instant status + risk</div></div>
+        <span class="arrow">+</span>
+        <div class="node"><div class="t">AI advice</div><div class="d">Claude → plain language</div></div>
+        <span class="arrow">→</span>
+        <div class="node cream"><div class="t">Dashboard · SMS · LCD</div><div class="d">farmer sees + acts</div></div>
+      </div>
+    </div>
+    <p style="margin-top:30px">Because the node computes a safe local status too, the farmer <b>always</b> sees a warning on the screen — even with no internet. Resilience by design.</p>
+  </section>
+
+  <!-- 6 · LIVE SYSTEM -->
+  <section class="slide">
+    <span class="brandtab">IT'S REAL</span>
+    <span class="num">06 / 12</span>
+    <div class="cols wide">
+      <div>
+        <div class="kicker">Working prototype</div>
+        <h2>Built, wired, <span class="sig">live</span>.</h2>
+        <ul class="clean yl">
+          <li>ESP32 node on a breadboard, reading all four sensors.</li>
+          <li>Live cloud dashboard with risk score, trends &amp; alert history.</li>
+          <li>Rule engine + AI advice returning real decisions.</li>
+        </ul>
+      </div>
+      <figure>
+        <img class="shot" src="assets/dashboard.png" alt="AEGIS dashboard" />
+        <figcaption>AEGIS cloud dashboard — "IRRIGATE NOW", risk 62%, soil 28%.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 7 · INTELLIGENCE -->
+  <section class="slide">
+    <span class="brandtab">THE BRAIN</span>
+    <span class="num">07 / 12</span>
+    <div class="kicker">Fast rules + friendly AI</div>
+    <h2>Decisions in <span class="yl">milliseconds</span>, explained like a <span class="sig">human</span>.</h2>
+    <div class="cols" style="margin-top:30px">
+      <div class="node" style="min-width:0">
+        <div class="d" style="margin-bottom:8px">NODE SENDS →</div>
+        <pre class="mono" style="font-size:14px;line-height:1.7;color:#e6e0cd">{
+  "soilPct": 22,
+  "temperature": 34,
+  "humidity": 38,
+  "smoke": 700
+}</pre>
+      </div>
+      <div class="node cream" style="min-width:0">
+        <div class="d" style="margin-bottom:8px;color:#5a5545">← AEGIS REPLIES</div>
+        <pre class="mono" style="font-size:14px;line-height:1.7;color:#141414">{
+  "status": "IRRIGATE NOW",
+  "risk": 62,
+  "message": "Soil low (22%).
+   Irrigate field-a now; avoid
+   over-watering to save water."
+}</pre>
+      </div>
+    </div>
+    <p style="margin-top:24px">The rule engine guarantees safety and speed; the AI layer only <b>rephrases</b> the facts — so the system still works if the AI is ever offline.</p>
+  </section>
+
+  <!-- 8 · IMPACT -->
+  <section class="slide">
+    <span class="brandtab">IMPACT</span>
+    <span class="num">08 / 12</span>
+    <div class="kicker">Sustainable by design</div>
+    <h2>Every part of AEGIS pushes toward <span class="yl">less waste</span>.</h2>
+    <div class="stats">
+      <div class="stat"><div class="big">Water</div><div class="cap">Irrigate on <i>need</i>, not schedule — directly cuts water use on every field.</div></div>
+      <div class="stat"><div class="big">Yield</div><div class="cap">Early frost / heat / fire / disease warnings prevent crop loss and wasted inputs.</div></div>
+      <div class="stat"><div class="big">E-waste</div><div class="cap">Modular, repairable nodes — replace a ₹-cheap sensor, not the whole device.</div></div>
+    </div>
+    <p style="margin-top:32px"><b class="sig">Accessible:</b> SMS alerts reach any basic phone — no smartphone, no app, no data plan required.</p>
+  </section>
+
+  <!-- 9 · DIFFERENTIATORS -->
+  <section class="slide">
+    <span class="brandtab">WHY AEGIS</span>
+    <span class="num">09 / 12</span>
+    <div class="cols">
+      <div>
+        <div class="kicker">What makes it win</div>
+        <h2>Cheap. Modular. <span class="sig">Unstoppable.</span></h2>
+      </div>
+      <ul class="clean">
+        <li><b>~1/100th the cost</b> of commercial kits — built from commodity parts.</li>
+        <li><b>Modular PCBs</b> — each sensor is its own replaceable board.</li>
+        <li><b>Works offline</b> — local status on the node when the cloud is down.</li>
+        <li><b>Any phone</b> — plain-language SMS, no app needed.</li>
+        <li><b>Scales</b> — add nodes across fields; one dashboard tracks them all.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 10 · COST -->
+  <section class="slide">
+    <span class="brandtab">BILL OF MATERIALS</span>
+    <span class="num">10 / 12</span>
+    <div class="kicker">One field node</div>
+    <h2>A full node for the price of a <span class="yl">meal</span>.</h2>
+    <table>
+      <thead><tr><th>Component</th><th>Role</th><th class="r">Approx ₹</th></tr></thead>
+      <tbody>
+        <tr><td>ESP32 DevKit</td><td>controller + Wi-Fi</td><td class="r">350</td></tr>
+        <tr><td>Soil moisture sensor</td><td>irrigation signal</td><td class="r">60</td></tr>
+        <tr><td>DHT11</td><td>temp + humidity</td><td class="r">80</td></tr>
+        <tr><td>MQ-2</td><td>smoke / fire</td><td class="r">90</td></tr>
+        <tr><td>16×2 I²C LCD</td><td>on-site readout</td><td class="r">150</td></tr>
+        <tr><td>Wiring, board, misc</td><td>—</td><td class="r">120</td></tr>
+      </tbody>
+      <tfoot><tr><td>Per node</td><td></td><td class="r">≈ ₹850</td></tr></tfoot>
+    </table>
+    <p style="margin-top:18px;font-size:15px;color:var(--muted)">Indicative retail prices; fall further at scale. Cloud runs on free/low-cost tiers.</p>
+  </section>
+
+  <!-- 11 · ROADMAP -->
+  <section class="slide">
+    <span class="brandtab">ROADMAP</span>
+    <span class="num">11 / 12</span>
+    <div class="kicker">Where it goes</div>
+    <h2>From breadboard to <span class="sig">the field</span>.</h2>
+    <div class="flow" style="margin-top:14px">
+      <div class="frow">
+        <div class="node cream"><div class="t">Now ✓</div><div class="d">node + cloud + AI + dashboard</div></div>
+        <span class="arrow">→</span>
+        <div class="node"><div class="t">Phase 2</div><div class="d">SMS alerts (SIM/Twilio)</div></div>
+        <span class="arrow">→</span>
+        <div class="node"><div class="t">Phase 3</div><div class="d">solar power · LoRa range</div></div>
+      </div>
+      <div class="frow" style="padding-left:40px">
+        <span class="arrow">↳</span>
+        <div class="node"><div class="t">Phase 4</div><div class="d">auto irrigation valve</div></div>
+        <span class="arrow">→</span>
+        <div class="node"><div class="t">Phase 5</div><div class="d">local-language voice + multi-farm</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · CLOSE -->
+  <section class="slide cover">
+    <span class="brandtab">AEGIS</span>
+    <span class="num">12 / 12</span>
+    <div class="kicker">Thank you</div>
+    <h1 style="font-size:clamp(48px,9vw,120px)">Watch the field.<br/><span class="sig">Save the water.</span></h1>
+    <p class="sub" style="max-width:44ch">AEGIS — protection that any farmer can afford, repair, and understand.</p>
+    <div class="metae">
+      <span class="chip on">Techathon 3.0 · Vision Venture</span>
+      <span class="chip">Team: [Your Name] · [Teammate]</span>
+      <span class="chip">[contact / email]</span>
+    </div>
+  </section>
+
+</div>
+<div class="hint">← → / scroll · press P then Ctrl+P to export PDF</div>
+<script>
+  // Arrow / space navigation between slides.
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  function go(n){i=Math.max(0,Math.min(slides.length-1,n));slides[i].scrollIntoView({behavior:'smooth'});}
+  addEventListener('keydown',e=>{
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1);}
+    if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(i-1);}
+    if(e.key==='Home')go(0); if(e.key==='End')go(slides.length-1);
+  });
+  // Track scroll position so arrows resume from the right slide.
+  const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting)i=slides.indexOf(x.target);}),{threshold:.5});
+  slides.forEach(s=>io.observe(s));
+</script>
+</body>
+</html>

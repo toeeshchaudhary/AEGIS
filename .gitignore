@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# next.js
+dashboard/.next/
+dashboard/out/
+dashboard/next-env.d.ts
+
+# env / secrets
+.env
+.env*.local
+
+# logs / os
+*.log
+.DS_Store
+
+# large source brief (kept out of the code repo)
+Techathon 3.0.pdf
+
+# local tooling
+.claude/
