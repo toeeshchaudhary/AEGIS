@@ -41,6 +41,8 @@ template advice, so the demo always works offline.
 ## The pitch deck
 Open `deck/index.html` (arrow keys / scroll to navigate) or view the exported
 `deck/AEGIS-Vision-Venture.pdf`. Styled in the MTTA signage design system.
+The 2–3 min explanation-video script/voiceover is in
+[`deck/video-script.md`](deck/video-script.md).
 
 ## Design principle
 The node stays **dumb**, the cloud stays **smart**. The rule engine guarantees
