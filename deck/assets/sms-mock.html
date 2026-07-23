@@ -1,0 +1,72 @@
+<!doctype html>
+<html><head><meta charset="utf-8"/><style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#0a0f0b}
+  .phone{width:390px;height:844px;background:#0b0b0d;margin:0 auto;position:relative;
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#e9e9ec;
+    display:flex;flex-direction:column;overflow:hidden}
+  /* status bar */
+  .status{height:44px;display:flex;align-items:center;justify-content:space-between;
+    padding:0 22px;font-size:14px;font-weight:600;color:#fff}
+  .status .icons{display:flex;gap:6px;align-items:center;font-size:13px}
+  /* header */
+  .hdr{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0 14px;
+    border-bottom:.5px solid #222226;background:#0d0d10}
+  .ava{width:52px;height:52px;border-radius:50%;background:#101611;display:grid;place-items:center;
+    border:1.5px solid #4ade80}
+  .ava svg{width:30px;height:30px}
+  .who{font-size:15px;font-weight:600}
+  .sub{font-size:11px;color:#8a8a90}
+  /* thread */
+  .thread{flex:1;padding:16px 14px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+  .day{align-self:center;font-size:11px;color:#7a7a80;margin:4px 0 6px}
+  .b{max-width:78%;padding:10px 13px;border-radius:18px;font-size:14.5px;line-height:1.4;
+    background:#1c1c20;border-radius:18px 18px 18px 5px;color:#eaeaee}
+  .b .tag{display:block;font-size:11px;font-weight:700;letter-spacing:.04em;margin-bottom:3px}
+  .b.crit .tag{color:#ff6b5e}
+  .b.warn .tag{color:#ffc83d}
+  .b.ok{background:#13251a}
+  .b.ok .tag{color:#4ade80}
+  .t{font-size:10.5px;color:#6f6f76;margin:1px 4px 0}
+  /* input bar */
+  .input{height:52px;border-top:.5px solid #222226;display:flex;align-items:center;gap:10px;
+    padding:0 14px;background:#0d0d10}
+  .field{flex:1;height:34px;border-radius:18px;background:#1c1c20;display:flex;align-items:center;
+    padding:0 14px;font-size:13px;color:#7a7a80}
+  .send{width:32px;height:32px;border-radius:50%;background:#4ade80;display:grid;place-items:center;color:#06210f;font-weight:700}
+</style></head>
+<body>
+<div class="phone">
+  <div class="status"><span>9:41</span><span class="icons">5G ▪ 87%</span></div>
+  <div class="hdr">
+    <div class="ava">
+      <svg viewBox="0 0 48 48" fill="none">
+        <path d="M24 3 L41 10 V23 C41 34 33 42 24 45 C15 42 7 34 7 23 V10 Z" fill="#0b0b0d" stroke="#4ade80" stroke-width="2"/>
+        <path d="M24 13 C29 17 31 24 24 34 C17 24 19 17 24 13 Z" fill="#4ade80"/>
+        <line x1="24" y1="17" x2="24" y2="33" stroke="#0b0b0d" stroke-width="1.4"/>
+      </svg>
+    </div>
+    <div class="who">AEGIS</div>
+    <div class="sub">Field alerts · SMS</div>
+  </div>
+  <div class="thread">
+    <div class="day">Today</div>
+
+    <div class="b ok"><span class="tag">AEGIS · FIELD A</span>Morning check: all healthy. Soil 68%, 28°C. No action needed.</div>
+    <div class="t">6:02 AM</div>
+
+    <div class="b warn"><span class="tag">⚠ AEGIS ALERT · FIELD A</span>Soil moisture low (22%). Irrigate now; avoid over-watering to save water.</div>
+    <div class="t">1:47 PM</div>
+
+    <div class="b warn"><span class="tag">⚠ AEGIS ALERT · FIELD A</span>Heat stress at 43°C. Irrigate early morning or evening to reduce crop stress.</div>
+    <div class="t">2:31 PM</div>
+
+    <div class="b crit"><span class="tag">🔥 AEGIS URGENT · FIELD A</span>Smoke very high — possible field fire. Check immediately and keep water ready.</div>
+    <div class="t">4:18 PM</div>
+  </div>
+  <div class="input">
+    <div class="field">Reply STOP to unsubscribe</div>
+    <div class="send">↑</div>
+  </div>
+</div>
+</body></html>
